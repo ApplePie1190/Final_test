@@ -3,8 +3,14 @@ from django.contrib.auth.models import User
 
 
 class Ingredient(models.Model):
-    name = models.CharField(max_length=100)
-    ingredients = models.ManyToManyField("Recipe", related_name="ingredients")
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=50, unique=True)
 
     def __str__(self):
         return self.name
@@ -12,24 +18,13 @@ class Ingredient(models.Model):
 
 class Recipe(models.Model):
     title = models.CharField(max_length=100)
-    description = models.TextField()
-    steps = models.TextField()
-    cooking_time = models.IntegerField()  # Время приготовления в минутах
+    description = models.TextField(default="", blank=True)
+    steps = models.TextField(default="", blank=True)
+    cooking_time = models.IntegerField(default=0)
     image = models.ImageField(upload_to="recipe_images/")
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    ingredients = models.ManyToManyField(Ingredient, related_name="recipes")
+    ingredients = models.ManyToManyField(Ingredient)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.title
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=50)
-
-    def __str__(self):
-        return self.name
-
-
-class RecipeCategory(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE)
