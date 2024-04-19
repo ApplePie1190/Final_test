@@ -1,3 +1,10 @@
 from django.shortcuts import render
 
-# Create your views here.
+import logging
+
+
+logger = logging.getLogger(__name__)
+
+
+def index(request):
+    return render(request, "myapp/index.html")
