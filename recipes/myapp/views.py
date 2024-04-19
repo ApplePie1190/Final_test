@@ -1,4 +1,6 @@
+import random
 from django.shortcuts import render
+from .models import Recipe, Ingredient, Category
 
 import logging
 
@@ -6,5 +8,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-def index(request):
-    return render(request, "myapp/index.html")
+def home(request):
+    recipes = Recipe.objects.order_by("?")[:5]
+    return render(request, "myapp/home.html", {"recipes": recipes})

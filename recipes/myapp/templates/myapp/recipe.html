@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  {{ recipe.title }} - My Recipes
+{% endblock %}
+
+{% block content %}
+  <article>
+    <header>
+      <h2>{{ recipe.title }}</h2>
+      <p>Author: {{ recipe.author }}</p>
+      <p>Cooking Time: {{ recipe.cooking_time }} minutes</p>
+      <!-- Другие детали рецепта -->
+    </header>
+    <section>
+      <h3>Description</h3>
+      <p>{{ recipe.description }}</p>
+    </section>
+    <section>
+      <h3>Ingredients</h3>
+      <ul>
+        {% for ingredient in recipe.ingredients.all %}
+          <li>{{ ingredient.name }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+    <section>
+      <h3>Steps</h3>
+      <ol>
+        {% for step in recipe.steps %}
+          <li>{{ step }}</li>
+        {% endfor %}
+      </ol>
+    </section>
+  </article>
+{% endblock %}
